@@ -4,37 +4,52 @@ import { useContext } from "preact/hooks";
 import { TransactionsContext } from "../../../contexts/TransactionsContext";
 
 export function Sumarry() {
-      const{ transactions } = useContext(TransactionsContext)
-      console.log(transactions)
-    
-    return(
-        <SumarryContainer>
-            <SumarryCard>
-                <header>
-                    <span>Entradas</span>
-                    <ArrowCircleUp size={32} color="#00b37e"/>
-                </header>
+  const { transactions } = useContext(TransactionsContext);
 
-                <strong>R$ 17.400,00</strong>
-            </SumarryCard>
+  const summary = transactions.reduce((acc, transaction) => { 
+    if (transaction. type == 'income') {
+        acc.income += transaction.price;
+        acc.total += transaction.price
+    } else {
+        acc.outcome += transaction.price
+        acc.total -= transaction.price
+    }
 
-            <SumarryCard>
-                <header>
-                    <span>Saidas</span>
-                    <ArrowCircleDown size={32} color="#f75a68"/>
-                </header>
+    return acc;
+    }, {
+    income: 0,
+    outcome: 0,
+    total: 0,
+  });
 
-                <strong>R$ 17.400,00</strong>
-            </SumarryCard>
+  return (
+    <SumarryContainer>
+      <SumarryCard>
+        <header>
+          <span>Entradas</span>
+          <ArrowCircleUp size={32} color="#00b37e" />
+        </header>
 
-            <SumarryCard variant="green">
-                <header>
-                    <span>Total</span>
-                    <CurrencyDollar size={32} color="#FFF"/>
-                </header>
+        <strong>{summary.income}</strong>
+      </SumarryCard>
 
-                <strong>R$ 17.400,00</strong>
-            </SumarryCard>
-        </SumarryContainer>
-    )
+      <SumarryCard>
+        <header>
+          <span>Saidas</span>
+          <ArrowCircleDown size={32} color="#f75a68" />
+        </header>
+
+        <strong>{summary.outcome}</strong>
+      </SumarryCard>
+
+      <SumarryCard variant="green">
+        <header>
+          <span>Total</span>
+          <CurrencyDollar size={32} color="#FFF" />
+        </header>
+
+        <strong>{summary.total}</strong>
+      </SumarryCard>
+    </SumarryContainer>
+  );
 }
