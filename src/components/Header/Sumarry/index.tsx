@@ -1,7 +1,12 @@
 import { ArrowCircleDown, ArrowCircleUp, CurrencyDollar } from "phosphor-react";
 import { SumarryCard, SumarryContainer } from "./styles";
+import { useContext } from "preact/hooks";
+import { TransactionsContext } from "../../../contexts/TransactionsContext";
 
 export function Sumarry() {
+      const{ transactions } = useContext(TransactionsContext)
+      console.log(transactions)
+    
     return(
         <SumarryContainer>
             <SumarryCard>
