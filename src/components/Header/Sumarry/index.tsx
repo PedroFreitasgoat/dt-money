@@ -2,6 +2,7 @@ import { ArrowCircleDown, ArrowCircleUp, CurrencyDollar } from "phosphor-react";
 import { SumarryCard, SumarryContainer } from "./styles";
 import { useContext } from "preact/hooks";
 import { TransactionsContext } from "../../../contexts/TransactionsContext";
+import { priceFormatter } from "../../../ultils/formatter";
 
 export function Sumarry() {
   const { transactions } = useContext(TransactionsContext);
@@ -30,7 +31,7 @@ export function Sumarry() {
           <ArrowCircleUp size={32} color="#00b37e" />
         </header>
 
-        <strong>{summary.income}</strong>
+        <strong>{priceFormatter.format(summary.income)}</strong>
       </SumarryCard>
 
       <SumarryCard>
@@ -39,7 +40,7 @@ export function Sumarry() {
           <ArrowCircleDown size={32} color="#f75a68" />
         </header>
 
-        <strong>{summary.outcome}</strong>
+        <strong>{priceFormatter.format(summary.outcome)}</strong>
       </SumarryCard>
 
       <SumarryCard variant="green">
@@ -48,7 +49,7 @@ export function Sumarry() {
           <CurrencyDollar size={32} color="#FFF" />
         </header>
 
-        <strong>{summary.total}</strong>
+        <strong>{priceFormatter.format(summary.total)}</strong>
       </SumarryCard>
     </SumarryContainer>
   );
