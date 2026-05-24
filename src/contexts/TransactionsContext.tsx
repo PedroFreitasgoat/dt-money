@@ -1,7 +1,7 @@
-import { createContext } from "preact";
 import type { ReactNode } from "preact/compat";
 import { useEffect, useState } from "preact/hooks";
 import { api } from "../lib/axios";
+import { createContext } from "use-context-selector";
 
 interface Transaction {
   id: number;

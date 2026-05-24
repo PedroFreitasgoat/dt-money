@@ -1,4 +1,3 @@
-import { useContext, useEffect, useState } from "preact/hooks";
 import { Header } from "../../components/Header";
 import { Sumarry } from "../../components/Header/Sumarry";
 import { SearchForm } from "./components/SearchForm";
@@ -9,10 +8,13 @@ import {
 } from "./styles";
 import { TransactionsContext } from "../../contexts/TransactionsContext";
 import { dateFormatter, priceFormatter } from "../../ultils/formatter";
-
+import { useContextSelector } from "use-context-selector";
 
 export function Transactions() {
-  const{ transactions } = useContext(TransactionsContext)
+  const transactions = useContextSelector(
+    TransactionsContext,
+    (context) => context.transactions
+  );
 
   return (
     <div>
@@ -24,18 +26,25 @@ export function Transactions() {
 
         <TransactionsTable>
           <tbody>
-            {transactions.map(transaction => {
+            {transactions.map((transaction) => {
               return (
                 <tr key={transaction.id}>
                   <td width="50%">{transaction.description}</td>
+
                   <td>
                     <PriceHighLight variant={transaction.type}>
-                      {transaction.type == 'outcome' && '- '}
+                      {transaction.type === "outcome" && "- "}
                       {priceFormatter.format(transaction.price)}
                     </PriceHighLight>
                   </td>
+
                   <td>{transaction.category}</td>
-                  <td>{dateFormatter.format(new Date(transaction.createdAt))}</td>
+
+                  <td>
+                    {dateFormatter.format(
+                      new Date(transaction.createdAt)
+                    )}
+                  </td>
                 </tr>
               );
             })}
