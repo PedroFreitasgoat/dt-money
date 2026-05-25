@@ -1,5 +1,5 @@
 import type { ReactNode } from "preact/compat";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useState, useCallback } from "preact/hooks";
 import { api } from "../lib/axios";
 import { createContext } from "use-context-selector";
 
@@ -30,7 +30,6 @@ interface TransactionsProviderProps {
 }
 
 
-
 export const TransactionsContext = createContext({} as TransactionsContextType);
 
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
@@ -48,7 +47,9 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     setTransactions(response.data);
   }
 
-  async function CreateTransaction(data: CreateTransactionInput) {
+
+
+  const CreateTransaction = useCallback(async (data: CreateTransactionInput) => {
     const { description, price, category, type } = data;
 
     const response = await api.post('transactions', {
@@ -60,7 +61,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         })
     
         setTransactions(state => [response.data, ...state]);
-  }
+  }, [])
 
   useEffect(() => {
     fetchTransactions();
